@@ -1,7 +1,7 @@
+import 'package:expense_tracker/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:expense_tracker/services/database.dart';
 
 var etColorScheme = ColorScheme.fromSeed(
@@ -20,45 +20,47 @@ class MyApp extends StatelessWidget {
       create: (context) => DatabaseService(),
       child: MaterialApp(
         theme: ThemeData(
-          fontFamily: 'Inter',
-          scaffoldBackgroundColor: Colors.white
-        ).copyWith(
-          colorScheme: etColorScheme,
-          appBarTheme: const AppBarTheme().copyWith(
-            backgroundColor: etColorScheme.primary,
-            foregroundColor: etColorScheme.onPrimary,
-          ),
-          cardTheme: const CardTheme().copyWith(
-            shadowColor: etColorScheme.primaryContainer,
-            color: etColorScheme.primaryContainer,
-          ),
-          floatingActionButtonTheme:
-              const FloatingActionButtonThemeData().copyWith(
-            backgroundColor: etColorScheme.primary,
-            foregroundColor: etColorScheme.onPrimary,
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(etColorScheme.primary),
-              foregroundColor:
-                  WidgetStateProperty.all(etColorScheme.onPrimary),
-            ),
-          ),
-        ),
+                fontFamily: 'Inter', scaffoldBackgroundColor: Colors.white)
+            .copyWith(
+                colorScheme: etColorScheme,
+                appBarTheme: const AppBarTheme().copyWith(
+                  backgroundColor: etColorScheme.primary,
+                  foregroundColor: etColorScheme.onPrimary,
+                ),
+                cardTheme: const CardTheme().copyWith(
+                  color: etColorScheme.primaryContainer,
+                ),
+                floatingActionButtonTheme:
+                    const FloatingActionButtonThemeData().copyWith(
+                  backgroundColor: etColorScheme.primaryContainer.withOpacity(0.8),
+                  foregroundColor: etColorScheme.onPrimaryContainer,
+                  splashColor: etColorScheme.primaryContainer,
+                  iconSize: 28
+                ),
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStateProperty.all(etColorScheme.primary),
+                    foregroundColor:
+                        WidgetStateProperty.all(etColorScheme.onPrimary),
+                  ),
+                ),
+                navigationBarTheme: const NavigationBarThemeData().copyWith(
+                  indicatorColor: etColorScheme.primaryContainer,
+                  backgroundColor: etColorScheme.primaryContainer.withOpacity(0.2),
+                ),
+                bottomSheetTheme: const BottomSheetThemeData().copyWith(
+                    backgroundColor: etColorScheme.onPrimary,
+                    modalBackgroundColor: etColorScheme.onPrimary),
+                dialogTheme: const DialogTheme().copyWith(
+                  backgroundColor: etColorScheme.onPrimary,
+                ),
+                datePickerTheme: const DatePickerThemeData().copyWith(
+                  backgroundColor: etColorScheme.onPrimary,
+                )),
         themeMode: ThemeMode.light,
-        home: _getInitialScreen(),
+        home: const MainScreen(),
       ),
     );
-  }
-
-   Widget _getInitialScreen() {
-    // DateTime today = DateTime.now();
-    // DateTime birthday = DateTime(today.year, 6, 28); // Set your birthday here
-
-    // if (today.month == birthday.month && today.day == birthday.day) {
-    //   return const OpeningScreen();
-    // } else {
-      return const Expenses();
-    // }
   }
 }

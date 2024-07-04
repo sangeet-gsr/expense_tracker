@@ -54,10 +54,13 @@ class FilterBar extends StatelessWidget {
               children: [
                 DropdownButtonHideUnderline(
                   child: DropdownButton(
+                    isDense: true,
                     value: filterByMonth,
                     icon: const Icon(Icons.arrow_drop_down),
-                    elevation: 16,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(20),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    dropdownColor: Theme.of(context).colorScheme.onPrimary,
                     focusColor: Theme.of(context).colorScheme.primary,
                     items: dropdownItems,
                     onChanged: (value) {
@@ -65,13 +68,15 @@ class FilterBar extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(width: 16),
                 DropdownButtonHideUnderline(
                   child: DropdownButton(
+                    isDense: true,
                     value: filterByYear,
                     icon: const Icon(Icons.arrow_drop_down),
-                    elevation: 16,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(20),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    dropdownColor: Theme.of(context).colorScheme.onPrimary,
                     focusColor: Theme.of(context).colorScheme.primary,
                     items: [
                       for (var year = 2015; year <= DateTime.now().year; year++)
@@ -82,7 +87,7 @@ class FilterBar extends StatelessWidget {
                       onSelect(filterByMonth, value!);
                     },
                   ),
-                )
+                ),
               ],
             ),
           ],

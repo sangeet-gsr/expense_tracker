@@ -38,11 +38,11 @@ class DatabaseService {
   }
 
   Future<void> closeDatabase() async {
-  if (_database != null) {
-    await _database!.close();
-    _database = null;
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
   }
-}
 
   Future<void> addExpense(Expense expense) async {
     try {
@@ -60,19 +60,40 @@ class DatabaseService {
     await db.delete('expenses', where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<bool> updateExpense(Expense expense) async {
+    try {
+      final db = await getDatabase();
+      await db.update('expenses', expense.toMap(),
+          where: 'id=?', whereArgs: [expense.id]);
+      return true;
+    } on Exception catch (e) {
+      logger.e("Error updating expense: $e");
+      return false;
+    }
+  }
+
   Future<List<Expense>> getExpenses(filterByMonth, filterByYear) async {
     try {
       final formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
       final db = await getDatabase();
-      final List<Map<String, dynamic>> maps = await db.query('expenses', where: 'strftime("%m", date) = ? AND strftime("%Y", date) = ?', whereArgs: [filterByMonth, filterByYear], orderBy: 'date DESC');
+      final List<Map<String, dynamic>> maps = await db.query('expenses',
+          where: 'strftime("%m", date) = ? AND strftime("%Y", date) = ?',
+          whereArgs: [filterByMonth, filterByYear],
+          orderBy: 'date DESC');
       return [
         for (final {
-          'id': id,
-          'title': title,
-          'amount': amount,
-          'category': category,
-          'date': date
-        } in maps) Expense(id: id, title: title, amount: amount, date: formatter.parse(date), category: getCategoryFromString(category))
+              'id': id,
+              'title': title,
+              'amount': amount,
+              'category': category,
+              'date': date
+            } in maps)
+          Expense(
+              id: id,
+              title: title,
+              amount: amount,
+              date: formatter.parse(date),
+              category: getCategoryFromString(category))
       ];
     } on Exception catch (e) {
       logger.e("Error fetching expenses: $e");
@@ -82,7 +103,8 @@ class DatabaseService {
 
   Category getCategoryFromString(category) {
     try {
-      return Category.values.firstWhere((e) => e.toString() == 'Category.$category');
+      return Category.values
+          .firstWhere((e) => e.toString() == 'Category.$category');
     } catch (e) {
       return Category.others;
     }

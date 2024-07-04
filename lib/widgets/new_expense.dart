@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key, required this.onAddExpense});
+  const NewExpense({super.key, required this.onAddExpense, this.expense});
 
-  final void Function(Expense) onAddExpense;
+  final void Function(Expense, Command) onAddExpense;
+  final Expense? expense;
 
   @override
   State<NewExpense> createState() {
@@ -19,12 +20,22 @@ class _NewExpenseState extends State<NewExpense> {
   final _dateController = TextEditingController();
   DateTime? _selectedDate;
   Category _selectedCategory = Category.groceries;
+  var action = Command.add;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = DateTime.now(); // Set default date to current date
-    _dateController.text = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    print("widget.expense: ${widget.expense?.title}");
+    if (widget.expense?.title != null) {
+      action = Command.update;
+    }
+    _selectedDate = widget.expense?.date ?? DateTime.now(); // Set default date to current date
+    _dateController.text =
+        DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    _titleController.text = widget.expense?.title ?? '';
+    _amountController.text = widget.expense?.amount.toString() ?? '';
+    _selectedCategory = widget.expense?.category ?? Category.groceries;
+
   }
 
   void _submitExpenseData() {
@@ -52,11 +63,15 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
-    widget.onAddExpense(Expense(
-        title: _titleController.text,
-        amount: enteredAmount,
-        date: _selectedDate!,
-        category: _selectedCategory));
+    print("action: $action");
+    widget.onAddExpense(
+        Expense(
+            id: widget.expense?.id,
+            title: _titleController.text,
+            amount: enteredAmount,
+            date: _selectedDate!,
+            category: _selectedCategory),
+        action);
     Navigator.pop(context);
   }
 
@@ -77,7 +92,7 @@ class _NewExpenseState extends State<NewExpense> {
           SizedBox(
             height: 40,
             child: Text(
-              "Add a new expense",
+              "${action == Command.add ? "Add a new": "Update"} expense",
               style: TextStyle(
                 fontSize: 24,
                 fontFamily: "Sharp Sans",
@@ -138,6 +153,7 @@ class _NewExpenseState extends State<NewExpense> {
             height: 16,
           ),
           DropdownButtonFormField(
+            dropdownColor: Theme.of(context).colorScheme.onPrimary,
             decoration: const InputDecoration(
               labelText: 'Category',
             ),
@@ -145,12 +161,31 @@ class _NewExpenseState extends State<NewExpense> {
             items: Category.values
                 .map(
                   (category) => DropdownMenuItem(
-                    value: category,
-                    child: Text(category.name.substring(0, 1).toUpperCase() +
-                        category.name.substring(1)),
-                  ),
+                      value: category,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(category.name.substring(0, 1).toUpperCase() +
+                              category.name.substring(1)), // Main text
+                          Text(
+                            categoryHelpers[category]!, // Helper text
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.grey),
+                          ),
+                        ],
+                      )),
                 )
                 .toList(),
+            selectedItemBuilder: (BuildContext context) {
+              return Category.values.map((Category category) {
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(category.name.substring(0, 1).toUpperCase() +
+                      category.name
+                          .substring(1)), // Only main text for selected item
+                );
+              }).toList();
+            },
             onChanged: (value) {
               if (value == null) {
                 return;
@@ -168,6 +203,14 @@ class _NewExpenseState extends State<NewExpense> {
             children: [
               TextButton(
                 onPressed: () {
+                  widget.onAddExpense(
+                      Expense(
+                        title: '',
+                        amount: 0.0,
+                        date: DateTime.now(),
+                        category: Category.groceries,
+                      ),
+                      Command.cancel);
                   Navigator.pop(context);
                 },
                 child: const Text('Cancel'),
@@ -177,7 +220,7 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               ElevatedButton(
                 onPressed: _submitExpenseData,
-                child: const Text('Add Expense'),
+                child: Text('${action == Command.add ? "Add" : "Update"} Expense'),
               ),
             ],
           )

@@ -11,15 +11,21 @@ class ChartBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        height: 8,
+        width: double.infinity,
         child: FractionallySizedBox(
-          heightFactor: fill,
-          child: DecoratedBox(
+          widthFactor: fill,
+          heightFactor: 1,
+          alignment: Alignment.centerLeft,
+          child: Container(
             decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
               color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(20),
             ),
           ),
         ),

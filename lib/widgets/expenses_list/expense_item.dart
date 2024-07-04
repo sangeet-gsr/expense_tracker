@@ -13,8 +13,6 @@ class ExpenseItem extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
-      // shadowColor: const Color.fromARGB(0, 104, 58, 183),
-      // color: const Color.fromARGB(29, 104, 58, 183),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 12,

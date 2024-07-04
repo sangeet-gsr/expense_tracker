@@ -6,7 +6,9 @@ const uuid = Uuid();
 
 final formatter = DateFormat.yMd();
 
-enum Category { housing, groceries, transport, shopping, entertainment, dining, health, others }
+enum Category { housing, groceries, transport, shopping, entertainment, dineout, health, utilities, others }
+
+enum Command { add, update, cancel }
 
 const categoryIcons = {
   Category.housing: Icons.home_rounded,
@@ -14,9 +16,21 @@ const categoryIcons = {
   Category.transport: Icons.two_wheeler_rounded,
   Category.shopping: Icons.shopping_bag_rounded,
   Category.entertainment: Icons.movie_filter_rounded,
-  Category.dining: Icons.restaurant_menu_rounded,
+  Category.dineout: Icons.restaurant_menu_rounded,
   Category.health: Icons.medication_rounded,
+  Category.utilities: Icons.gas_meter_rounded,
   Category.others: Icons.miscellaneous_services_rounded,
+};
+const categoryHelpers = {
+  Category.housing: 'Rent, Loans, Insurance, etc.',
+  Category.groceries: 'Groceries, Food, Housing supplies etc.',
+  Category.transport: 'Bike, Car, Public transport etc.',
+  Category.shopping: 'Fashion, Electronics, etc.',
+  Category.entertainment: 'Movies, Games, etc.',
+  Category.dineout: 'Restaurants, Fast food, etc.',
+  Category.health: 'Medicines, Doctor, etc.',
+  Category.utilities: 'Electricity, Water, Gas, Internet, Mobile bills etc.',
+  Category.others: 'Miscellaneous expenses.',
 };
 
 class Expense {
