@@ -33,7 +33,7 @@ class FilterBar extends StatelessWidget {
   @override
   Widget build(context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
+      padding: const EdgeInsets.fromLTRB(12, 6, 4, 0),
       child: SizedBox(
         height: 40,
         child: Row(
@@ -57,11 +57,10 @@ class FilterBar extends StatelessWidget {
                     isDense: true,
                     value: filterByMonth,
                     icon: const Icon(Icons.arrow_drop_down),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(8),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     dropdownColor: Theme.of(context).colorScheme.onPrimary,
-                    focusColor: Theme.of(context).colorScheme.primary,
                     items: dropdownItems,
                     onChanged: (value) {
                       onSelect(value!, filterByYear);
@@ -73,11 +72,10 @@ class FilterBar extends StatelessWidget {
                     isDense: true,
                     value: filterByYear,
                     icon: const Icon(Icons.arrow_drop_down),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(8),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     dropdownColor: Theme.of(context).colorScheme.onPrimary,
-                    focusColor: Theme.of(context).colorScheme.primary,
                     items: [
                       for (var year = 2015; year <= DateTime.now().year; year++)
                         DropdownMenuItem(

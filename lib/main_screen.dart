@@ -61,7 +61,6 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   Future<void> _addExpense(Expense expense, Command action) async {
     try {
       if (action == Command.add) {
-        print("adding expense...");
         await databaseService.addExpense(expense);
         await _fetchExpenses(databaseService);
         setState(() {});
@@ -74,11 +73,6 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   Future<void> _updateExpense(Expense expense, Command action) async {
     try {
       if (action == Command.update) {
-        print("updating expense: ${expense.id}");
-        print("updating expense: ${expense.title}");
-        print("updating expense: ${expense.amount}");
-        print("updating expense: ${expense.date}");
-        print("updating expense: ${expense.category}");
         await databaseService.updateExpense(expense);
         await _fetchExpenses(databaseService);
         setState(() {});
@@ -100,9 +94,7 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       context: context,
       builder: (ctx) => NewExpense(
           onAddExpense: (editedExpense, action) {
-            print("action: $action");
             if (action == Command.cancel) {
-              print("cancelling update");
               _restoreExpense(editingExpense, index);
             } else {
               _updateExpense(editedExpense, action);
@@ -113,7 +105,6 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   void _restoreExpense(Expense? expense, int index) {
-    print("restoring expense");
     if (expense != null) {
       setState(() {
         expenses.insert(index, expense);
@@ -182,6 +173,57 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     });
   }
 
+  Future<void> _showDialog(ExpenseBucket bucket) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            bucket.category.name.substring(0, 1).toUpperCase() +
+                bucket.category.name.substring(1),
+          ),
+          titleTextStyle: const TextStyle().copyWith(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+          content: SizedBox(
+            height: 200,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  for (var expense in bucket.expenses)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(expense.title),
+                          Text(
+                            expense.amount.toStringAsFixed(2),
+                          )
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            const Divider(
+              thickness: 1,
+            ),
+            Text(
+              bucket.totalExpenses.toStringAsFixed(2),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(context) {
     return Scaffold(
@@ -202,9 +244,7 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               removeExpense: _removeExpense,
               editExpense: _openEditExpenseOverlay,
             )
-          : Chart(
-              expenses: expenses,
-            ),
+          : Chart(expenses: expenses, onShowDialog: _showDialog),
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddExpenseOverlay,
         child: const Icon(Icons.add),

@@ -32,7 +32,7 @@ class Expenses extends StatelessWidget {
       );
     } else if (expenses.isEmpty) {
       mainContent = const Center(
-        child: Text("No expenses found. Start adding some!"),
+        child: Text("Wow, no expenses! You must be a financial wizard!"),
       );
     } else {
       mainContent = ExpensesList(

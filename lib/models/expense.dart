@@ -22,15 +22,15 @@ const categoryIcons = {
   Category.others: Icons.miscellaneous_services_rounded,
 };
 const categoryHelpers = {
-  Category.housing: 'Rent, Loans, Insurance, etc.',
-  Category.groceries: 'Groceries, Food, Housing supplies etc.',
-  Category.transport: 'Bike, Car, Public transport etc.',
-  Category.shopping: 'Fashion, Electronics, etc.',
-  Category.entertainment: 'Movies, Games, etc.',
-  Category.dineout: 'Restaurants, Fast food, etc.',
-  Category.health: 'Medicines, Doctor, etc.',
-  Category.utilities: 'Electricity, Water, Gas, Internet, Mobile bills etc.',
-  Category.others: 'Miscellaneous expenses.',
+  Category.housing: 'Rent, EMIs, Insurance.',
+  Category.groceries: 'Groceries, Vegetables, Fruits, Dairy products.',
+  Category.transport: 'Fuel, Public Transport, Toll Charges, Maintenance.',
+  Category.shopping: 'Clothing, Footwear, Salon, Electronics.',
+  Category.entertainment: 'Movies, Vacations, Subscriptions.',
+  Category.dineout: 'Restaurants, Cafes, Fast food.',
+  Category.health: 'Medicines, Doctor visit, Gym, Health Insurance.',
+  Category.utilities: 'Electricity, Water, Gas, Internet, Mobile phone bills.',
+  Category.others: 'Gifts, Donations, Miscellaneous expenses.',
 };
 
 class Expense {

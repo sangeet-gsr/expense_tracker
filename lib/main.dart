@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       create: (context) => DatabaseService(),
       child: MaterialApp(
         theme: ThemeData(
-                fontFamily: 'Inter', scaffoldBackgroundColor: Colors.white)
+                fontFamily: 'Inter' , scaffoldBackgroundColor: Colors.white)
             .copyWith(
                 colorScheme: etColorScheme,
                 appBarTheme: const AppBarTheme().copyWith(
@@ -28,16 +28,16 @@ class MyApp extends StatelessWidget {
                   foregroundColor: etColorScheme.onPrimary,
                 ),
                 cardTheme: const CardTheme().copyWith(
-                  color: etColorScheme.primaryContainer,
+                  color: etColorScheme.onPrimary,
                 ),
-                floatingActionButtonTheme:
-                    const FloatingActionButtonThemeData().copyWith(
-                  backgroundColor: etColorScheme.primaryContainer.withOpacity(0.8),
-                  foregroundColor: etColorScheme.onPrimaryContainer,
-                  splashColor: etColorScheme.primaryContainer,
-                  iconSize: 28
-                ),
-                elevatedButtonTheme: ElevatedButtonThemeData(
+                floatingActionButtonTheme: const FloatingActionButtonThemeData()
+                    .copyWith(
+                        backgroundColor:
+                            etColorScheme.primaryContainer.withOpacity(0.8),
+                        foregroundColor: etColorScheme.onPrimaryContainer,
+                        splashColor: etColorScheme.primaryContainer,
+                        iconSize: 28),
+                filledButtonTheme: FilledButtonThemeData(
                   style: ButtonStyle(
                     backgroundColor:
                         WidgetStateProperty.all(etColorScheme.primary),
@@ -47,7 +47,8 @@ class MyApp extends StatelessWidget {
                 ),
                 navigationBarTheme: const NavigationBarThemeData().copyWith(
                   indicatorColor: etColorScheme.primaryContainer,
-                  backgroundColor: etColorScheme.primaryContainer.withOpacity(0.2),
+                  backgroundColor:
+                      etColorScheme.primaryContainer.withOpacity(0.2),
                 ),
                 bottomSheetTheme: const BottomSheetThemeData().copyWith(
                     backgroundColor: etColorScheme.onPrimary,

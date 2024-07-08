@@ -25,7 +25,6 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   void initState() {
     super.initState();
-    print("widget.expense: ${widget.expense?.title}");
     if (widget.expense?.title != null) {
       action = Command.update;
     }
@@ -63,7 +62,6 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
-    print("action: $action");
     widget.onAddExpense(
         Expense(
             id: widget.expense?.id,
@@ -218,7 +216,7 @@ class _NewExpenseState extends State<NewExpense> {
               const SizedBox(
                 width: 20,
               ),
-              ElevatedButton(
+              FilledButton(
                 onPressed: _submitExpenseData,
                 child: Text('${action == Command.add ? "Add" : "Update"} Expense'),
               ),

@@ -50,12 +50,10 @@ class ExpenseItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    // Use Flexible to allow the title to wrap or truncate
                     child: Text(
                       expense.title,
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold,
                           fontFamily: 'Sharp Sans',
                           fontSize: 18),
                       overflow: TextOverflow
